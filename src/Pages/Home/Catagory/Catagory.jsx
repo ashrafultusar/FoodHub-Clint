@@ -8,10 +8,17 @@ import slid2 from "../../../assets/home/slide2.jpg";
 import slid3 from "../../../assets/home/slide3.jpg";
 import slid4 from "../../../assets/home/slide4.jpg";
 import slid5 from "../../../assets/home/slide5.jpg";
+import SectionTitle from "../../../Component/SectionTitle/SectionTitle";
 
 const Catagory = () => {
   return (
     <div>
+      <div>
+        <SectionTitle subHeading={'ORDER ONLINE'} heading={'---From 11:00am to 10:00pm---'} >
+
+        </SectionTitle>
+</div>
+
       <Swiper
         slidesPerView={4}
         spaceBetween={30}
