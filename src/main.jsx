@@ -1,18 +1,18 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import './index.css'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import { HelmetProvider } from 'react-helmet-async';
 
-import {
-  
-  RouterProvider,
-} from "react-router-dom";
-import { router } from './Routes/Routes';
+import { RouterProvider } from "react-router-dom";
+import { router } from "./Routes/Routes";
 
-
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <div className='max-w-screen-xl mx-auto'>
-    <RouterProvider router={router} />
+    
+    <HelmetProvider>
+    <div className="max-w-screen-xl mx-auto">
+      <RouterProvider router={router} />
     </div>
-  </React.StrictMode>,
-)
+   </HelmetProvider>
+  </React.StrictMode>
+);
