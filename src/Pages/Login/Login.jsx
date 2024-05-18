@@ -1,12 +1,16 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import {
   loadCaptchaEnginge,
   LoadCanvasTemplate,
   validateCaptcha,
 } from "react-simple-captcha";
+import { AuthContext } from "../../AuthProviders/AuthProvider";
+import { Link } from "react-router-dom";
 
 const Login = () => {
 
+  const { signIn } = useContext(AuthContext);
+  
     const captchaRef = useRef(null);
 const [disable,setButtonDisable]=useState(true)
 
@@ -32,9 +36,19 @@ const [disable,setButtonDisable]=useState(true)
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
-    console.log(email, password);
+    
+    signIn(email, password)
+      .then(res => {
+        const user = res.user;
+        console.log(user)
+    })
+
+
   };
 
+
+
+  
   return (
     <div>
       <div className="hero min-h-screen bg-base-200">
@@ -94,10 +108,11 @@ const [disable,setButtonDisable]=useState(true)
               <div className="form-control mt-6">
                 <input disabled={disable}
                   type="submit"
-                  className="btn btn-primary"
+                  className="btn border-0 bg-[#D1A054B2] "
                   value="Login"
                 />
               </div>
+              <p><small>New Here? Please <Link to='/register' className="text-orange-500  font-bold uppercase">Register</Link></small></p>
             </form>
           </div>
         </div>
