@@ -6,7 +6,6 @@ import desertImg from "../../../src/assets/menu/dessert-bg.jpeg";
 import pizzatImg from "../../../src/assets/menu/pizza-bg.jpg";
 import saladtImg from "../../../src/assets/menu/salad-bg.jpg";
 import souptImg from "../../../src/assets/menu/soup-bg.jpg";
-
 import SectionTitle from "../../Component/SectionTitle/SectionTitle";
 import MenuCatagory from "./MenuCatagory/MenuCatagory";
 
@@ -19,7 +18,7 @@ const Menu = () => {
   const soup = menu.filter((item) => item.category === "soup");
 
   return (
-    <div className="my-24">
+    <div className="">
       <Helmet>
         <title>FoodHub | Menu</title>
       </Helmet>
@@ -46,16 +45,29 @@ const Menu = () => {
         ></MenuCatagory>
 
         {/* pizza category */}
-        <MenuCatagory item={pizza} des="Would you like to try a dish?" title="PIZZA" coverimg={pizzatImg}></MenuCatagory>
-              
+        <MenuCatagory
+          item={pizza}
+          des="Would you like to try a dish?"
+          title="PIZZA"
+          coverimg={pizzatImg}
+        ></MenuCatagory>
 
-              {/* SALADS cataegory */}
-              <MenuCatagory item={salad} des="Would you like to try a dish?" title="salad" coverimg={saladtImg}></MenuCatagory>
+        {/* SALADS cataegory */}
+        <MenuCatagory
+          item={salad}
+          des="Would you like to try a dish?"
+          title="salad"
+          coverimg={saladtImg}
+        ></MenuCatagory>
 
-              {/* SOUPS */}
+        {/* SOUPS */}
 
-              <MenuCatagory item={soup} des="Would you like to try a dish?" title="SOUPS" coverimg={souptImg}></MenuCatagory>
-
+        <MenuCatagory
+          item={soup}
+          des="Would you like to try a dish?"
+          title="SOUPS"
+          coverimg={souptImg}
+        ></MenuCatagory>
       </div>
     </div>
   );
