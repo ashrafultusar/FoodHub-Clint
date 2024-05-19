@@ -1,56 +1,55 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   loadCaptchaEnginge,
   LoadCanvasTemplate,
   validateCaptcha,
 } from "react-simple-captcha";
 import { AuthContext } from "../../AuthProviders/AuthProvider";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const Login = () => {
-
   const { signIn } = useContext(AuthContext);
-  
-    const captchaRef = useRef(null);
-const [disable,setButtonDisable]=useState(true)
+  const navigate = useNavigate()
+  const location=useLocation()
+
+const from=location.state?.from?.pathname || "/"
+
+  const [disable, setButtonDisable] = useState(true);
 
   useEffect(() => {
     loadCaptchaEnginge(6);
   }, []);
 
-    const captchaSubmit = () => {
-        const user_captcha_value = captchaRef.current.value;
-        if (validateCaptcha(user_captcha_value)==true) {
-           setButtonDisable(false)
-        }
-   
-        else {
-            setButtonDisable(true)
-        }
-
+  const captchaSubmit = (e) => {
+    const user_captcha_value = e.target.value;
+    if (validateCaptcha(user_captcha_value) == true) {
+      setButtonDisable(false);
+    } else {
+      setButtonDisable(true);
     }
-    
-    
+  };
+
   const handelLogin = (e) => {
     e.preventDefault();
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
-    
-    signIn(email, password)
-      .then(res => {
-        const user = res.user;
-        console.log(user)
-    })
 
-
+    signIn(email, password).then((res) => {
+      const user = res.user;
+      console.log(user);
+      navigate(from, {replace: true})
+    });
   };
-
-
 
   
   return (
     <div>
+      <Helmet>
+        <title>FoodHub | Login</title>
+      </Helmet>
+
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row-reverse">
           <div className="text-center md:w-1/2 lg:text-left">
@@ -96,23 +95,35 @@ const [disable,setButtonDisable]=useState(true)
                 <label className="label">
                   <LoadCanvasTemplate />
                 </label>
-                <input
-                  type="text" ref={captchaRef}
+                <input onBlur={captchaSubmit}
+                  type="text"
+                 
                   name="captcha"
                   placeholder="type the captcha text"
                   className="input input-bordered"
                   required
                 />
-                <button onClick={captchaSubmit} className="btn mt-2 btn-outline btn-xs">Captcha Submit</button>
+               
               </div>
               <div className="form-control mt-6">
-                <input disabled={disable}
+                <input
+                  disabled={disable}
                   type="submit"
                   className="btn border-0 bg-[#D1A054B2] "
                   value="Login"
                 />
               </div>
-              <p><small>New Here? Please <Link to='/register' className="text-orange-500  font-bold uppercase">Register</Link></small></p>
+              <p>
+                <small>
+                  New Here? Please{" "}
+                  <Link
+                    to="/register"
+                    className="text-orange-500  font-bold uppercase"
+                  >
+                    Register
+                  </Link>
+                </small>
+              </p>
             </form>
           </div>
         </div>

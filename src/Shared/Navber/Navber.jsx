@@ -1,23 +1,56 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../AuthProviders/AuthProvider";
+import { FiShoppingCart } from "react-icons/fi";
+
 
 const Navber = () => {
+  const { user, logOut } = useContext(AuthContext);
+
+  const handelLogout = () => {
+    logOut()
+      .then(() => {})
+      .catch((err) => console.log(err));
+  };
+
   const navOption = (
     <>
       <li>
-        <Link to={'/'}>Home</Link>
+        <Link to={"/"}>Home</Link>
       </li>
       <li>
-        <Link to={'/menu'}>Our Menu</Link>
+        <Link to={"/menu"}>Our Menu</Link>
       </li>
       <li>
-        <Link to={'/order/salad'}>Order Food</Link>
+        <Link to={"/order/salad"}>Order Food</Link>
+      </li>
+
+      <li>
+        <Link to={"/register"}>Register</Link>
       </li>
       <li>
-        <Link to={'/login'}>Login</Link>
+        <Link to={"/"}>
+          <button className="btn">
+          <FiShoppingCart />
+
+            <div className="badge badge-secondary">+0</div>
+          </button>
+        </Link>
       </li>
-      <li>
-        <Link to={'/register'}>Register</Link>
-      </li>
+      {user ? (
+        <>
+          <button onClick={handelLogout} className="btn btn-active btn-ghost">
+            Logout
+          </button>
+        </>
+      ) : (
+        <>
+          {" "}
+          <li>
+            <Link to={"/login"}>Login</Link>
+          </li>
+        </>
+      )}
     </>
   );
 
