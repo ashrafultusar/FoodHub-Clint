@@ -13,8 +13,8 @@ const Login = () => {
   const navigate = useNavigate()
   const location=useLocation()
 
-const from=location.state?.from?.pathname || "/"
-
+  const from = location.state?.from?.pathname || "/";
+// console.log('state in the location',location.state)
   const [disable, setButtonDisable] = useState(true);
 
   useEffect(() => {
@@ -107,7 +107,7 @@ const from=location.state?.from?.pathname || "/"
               </div>
               <div className="form-control mt-6">
                 <input
-                  disabled={disable}
+                  disabled={false}
                   type="submit"
                   className="btn border-0 bg-[#D1A054B2] "
                   value="Login"
