@@ -12,8 +12,9 @@ const FoodCard = ({ item }) => {
   const location= useLocation()
   const { user } = UseAuth();
 const axiosSecure=UseAxiosSecure()
-const [,refetch]=UseCarts()
-
+  const [, refetch] = UseCarts() // array er first element ta na lagle amon , deye dite hohe otherwise problem kore
+  
+  
   const handelAddCart = () => {
     // console.log(food)
     if (user && user.email) {

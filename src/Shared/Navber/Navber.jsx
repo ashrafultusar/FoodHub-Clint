@@ -32,7 +32,7 @@ const Navber = () => {
         <Link to={"/register"}>Register</Link>
       </li>
       <li>
-        <Link to={"/"}>
+        <Link to={"/dashboard/cart"}>
           <button className="btn">
             <FiShoppingCart />
 
