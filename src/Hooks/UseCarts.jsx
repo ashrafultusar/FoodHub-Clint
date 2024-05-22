@@ -14,7 +14,7 @@ const UseCarts = () => {
     },
   });
 
-  console.log(cart);
+  // console.log(cart);
 
   return [cart, refetch];
 };

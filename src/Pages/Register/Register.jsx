@@ -1,12 +1,16 @@
 import { useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../AuthProviders/AuthProvider";
+import UseAxiosPublic from "../../Hooks/UseAxiosPublic";
+import Swal from "sweetalert2";
+import SocialLogin from "../../Component/SocialLogin/SocialLogin";
 
 const Register = () => {
-
-const {createUser}=useContext(AuthContext)
+  const axiosPublic = UseAxiosPublic();
+  const { createUser, updateUserProfile } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -15,12 +19,34 @@ const {createUser}=useContext(AuthContext)
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
-    createUser(data.email, data.password)
-      .then(result => {
-        const logUser = result.user;
-        console.log(logUser)
-    })
+    createUser(data.email, data.password).then((result) => {
+      const logUser = result.user;
+      console.log(logUser);
+
+      updateUserProfile(data.name, data.photoURL)
+        .then(() => {
+          //  create user entry in database
+          const userInfo = {
+            name: data.name,
+            email: data.email,
+          };
+          axiosPublic.post("/users", userInfo).then((res) => {
+            if (res.data.insertedId) {
+              console.log(' added the database')
+              // reset();
+              Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "User created successfully.",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              navigate("/");
+            }
+          });
+        })
+        .catch((error) => console.log(error));
+    });
   };
 
   return (
@@ -41,7 +67,6 @@ const {createUser}=useContext(AuthContext)
           </div>
           <div className="card md:w-1/2 max-w-sm shadow-2xl bg-base-100">
             <form onSubmit={handleSubmit(onSubmit)} className="card-body">
-
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Name</span>
@@ -65,15 +90,12 @@ const {createUser}=useContext(AuthContext)
                   type="text"
                   placeholder="Photo url"
                   {...register("photourl", { required: true })}
-                
                   className="input input-bordered"
                 />
                 {errors.photourl && (
                   <span className="text-red-600">This field is required</span>
                 )}
               </div>
-
-
 
               <div className="form-control">
                 <label className="label">
@@ -107,7 +129,6 @@ const {createUser}=useContext(AuthContext)
                     // pattern:
                     //   /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z])$/
                   })}
-                 
                 />
                 {/* {errors.password?.type === "required" && (
                   <span className="text-red-600">password is required</span>
@@ -127,7 +148,6 @@ const {createUser}=useContext(AuthContext)
                     password must have one upper case, one lower case, one number and one special character
                   </span>
                 )} */}
-                
 
                 <label className="label">
                   <a href="#" className="label-text-alt link link-hover">
@@ -142,9 +162,15 @@ const {createUser}=useContext(AuthContext)
                 value="Register"
               />
 
-              <p>
-                <small>
-                  Already have an account? Please{" "}
+            
+            </form>
+
+            <div className="pb-6 mx-8">
+              <SocialLogin></SocialLogin>
+            </div>
+            <p className="pb-6 text-center">
+            <small>
+                  Already have an account? Please
                   <Link
                     className="text-orange-500  font-bold uppercase"
                     to="/login"
@@ -152,8 +178,8 @@ const {createUser}=useContext(AuthContext)
                     Login
                   </Link>
                 </small>
-              </p>
-            </form>
+            </p>
+
           </div>
         </div>
       </div>

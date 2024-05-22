@@ -7,14 +7,15 @@ import {
 import { AuthContext } from "../../AuthProviders/AuthProvider";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import SocialLogin from "../../Component/SocialLogin/SocialLogin";
 
 const Login = () => {
   const { signIn } = useContext(AuthContext);
-  const navigate = useNavigate()
-  const location=useLocation()
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const from = location.state?.from?.pathname || "/";
-// console.log('state in the location',location.state)
+  // console.log('state in the location',location.state)
   const [disable, setButtonDisable] = useState(true);
 
   useEffect(() => {
@@ -39,11 +40,10 @@ const Login = () => {
     signIn(email, password).then((res) => {
       const user = res.user;
       console.log(user);
-      navigate(from, {replace: true})
+      navigate(from, { replace: true });
     });
   };
 
-  
   return (
     <div>
       <Helmet>
@@ -95,15 +95,14 @@ const Login = () => {
                 <label className="label">
                   <LoadCanvasTemplate />
                 </label>
-                <input onBlur={captchaSubmit}
+                <input
+                  onBlur={captchaSubmit}
                   type="text"
-                 
                   name="captcha"
                   placeholder="type the captcha text"
                   className="input input-bordered"
                   required
                 />
-               
               </div>
               <div className="form-control mt-6">
                 <input
@@ -113,18 +112,22 @@ const Login = () => {
                   value="Login"
                 />
               </div>
-              <p>
-                <small>
-                  New Here? Please{" "}
-                  <Link
-                    to="/register"
-                    className="text-orange-500  font-bold uppercase"
-                  >
-                    Register
-                  </Link>
-                </small>
-              </p>
             </form>
+
+            <div className="pb-6 mx-8">
+              <SocialLogin></SocialLogin>
+            </div>
+            <p className="pb-6 text-center">
+              <small>
+                New Here? Please
+                <Link
+                  to="/register"
+                  className="text-orange-500  font-bold uppercase"
+                >
+                  Register
+                </Link>
+              </small>
+            </p>
           </div>
         </div>
       </div>
