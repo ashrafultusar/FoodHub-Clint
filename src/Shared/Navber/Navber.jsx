@@ -9,7 +9,6 @@ const Navber = () => {
   const [cart] = UseCarts();
   console.log(user);
 
-
   const handelLogout = () => {
     logOut()
       .then(() => {})
@@ -48,7 +47,7 @@ const Navber = () => {
         </>
       ) : (
         <>
-          {" "}
+          
           <li>
             <Link to={"/login"}>Login</Link>
           </li>
@@ -90,7 +89,12 @@ const Navber = () => {
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">{navOption}</ul>
         </div>
+        
         <div className="navbar-end">
+        <div>
+          <img className="w-12 rounded-full mr-2" src={user?.photoURL} alt="" />
+        </div>
+
           <a className="btn">Button</a>
         </div>
       </div>
