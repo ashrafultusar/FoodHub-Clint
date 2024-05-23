@@ -2,24 +2,25 @@ import { FiShoppingCart } from "react-icons/fi";
 import { NavLink, Outlet } from "react-router-dom";
 import { IoHome } from "react-icons/io5";
 import {
-  FaAd,
+ 
   FaBook,
   FaEnvelope,
   FaList,
   FaRegCalendarAlt,
   FaSearch,
-  FaUser,
+  
   FaUsers,
   FaUtensils,
-  FaVoicemail,
+  
 } from "react-icons/fa";
 import { FcRating } from "react-icons/fc";
 import UseCarts from "../Hooks/UseCarts";
+import UseAdmin from "../Hooks/UseAdmin";
 
 const Dashboard = () => {
   const [cart] = UseCarts();
 
-  const isAdmin = true;
+  const [isAdmin] = UseAdmin();
 
   return (
     <div className="flex ">

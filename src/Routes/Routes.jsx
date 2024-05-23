@@ -53,7 +53,7 @@ export const router = createBrowserRouter([
 
       // admines routes
       {
-        path: "allUsers",
+        path: "users",
         element: <AllUsers></AllUsers>,
       },
     ],
