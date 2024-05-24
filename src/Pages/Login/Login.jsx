@@ -8,6 +8,9 @@ import { AuthContext } from "../../AuthProviders/AuthProvider";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import SocialLogin from "../../Component/SocialLogin/SocialLogin";
+import loginImg from '../../../src/assets/others/authentication1.png'
+
+
 
 const Login = () => {
   const { signIn } = useContext(AuthContext);
@@ -53,12 +56,8 @@ const Login = () => {
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row-reverse">
           <div className="text-center md:w-1/2 lg:text-left">
-            <h1 className="text-5xl font-bold">Login now!</h1>
-            <p className="py-6">
-              Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
-              excepturi exercitationem quasi. In deleniti eaque aut repudiandae
-              et a id nisi.
-            </p>
+            <img src={loginImg} alt="" />
+            
           </div>
           <div className="card md:w-1/2 max-w-sm shadow-2xl bg-base-100">
             <form onSubmit={handelLogin} className="card-body">
