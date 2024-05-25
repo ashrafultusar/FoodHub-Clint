@@ -9,63 +9,59 @@ import { FaUtensils } from "react-icons/fa";
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
-
 const UpdateItem = () => {
+  const item = useLoaderData();
+  const { register, handleSubmit } = useForm();
+  console.log(item);
 
-    const item = useLoaderData();
-    const { register, handleSubmit } = useForm();
-    console.log(item)
+  const axiosPublic = UseAxiosPublic();
+  const axiosSecure = UseAxiosSecure();
 
-    const axiosPublic = UseAxiosPublic();
-    const axiosSecure = UseAxiosSecure();
+  const onSubmit = async (data) => {
+    console.log(data);
+    //image upload imbb and get an url
+    const imageFile = { image: data.image[0] };
+    const res = await axiosPublic.post(image_hosting_api, imageFile, {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    });
+    if (res.data.success) {
+      // now send the menu item data to the server with the image
 
-    const onSubmit = async (data) => {
-      console.log(data);
-      //image upload imbb and get an url
-      const imageFile = { image: data.image[0] };
-      const res = await axiosPublic.post(image_hosting_api, imageFile, {
-        headers: {
-          "content-type": "multipart/form-data",
-        },
-      });
-      if (res.data.success) {
-        // now send the menu item data to the server with the image
-  
-        const menuItem = {
-          name: data.name,
-          category: data.category,
-          price: parseFloat(data.price),
-          recipe: data.recipe,
-          image: res.data.data.display_url,
-        };
-        //
-        const menuResponse = await axiosSecure.post("/menu", menuItem);
-        console.log(menuResponse.data);
-        if (menuResponse.data.insertedId) {
-          // show success popup
+      const menuItem = {
+        name: data.name,
+        category: data.category,
+        price: parseFloat(data.price),
+        recipe: data.recipe,
+        image: res.data.data.display_url,
+      };
+      //
+      const menuResponse = await axiosSecure.post("/menu", menuItem);
+      console.log(menuResponse.data);
+      if (menuResponse.data.insertedId) {
+        // show success popup
         //   reset()
-          Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: `${data.name} added to the menu`,
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        }
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: `${data.name} added to the menu`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
       }
-      console.log("with img url", res.data);
-    };
+    }
+    console.log("with img url", res.data);
+  };
 
+  return (
+    <div>
+      <SectionTitle
+        heading="Update an Item"
+        subHeading="Refresh Info"
+      ></SectionTitle>
 
-
-    return (
-        <div>
-            <SectionTitle
-            heading="Update an Item" subHeading="Refresh Info"
-            ></SectionTitle>
-
-
-<div>
+      <div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="form-control w-full my-6">
             <div className="label">
@@ -142,9 +138,8 @@ const UpdateItem = () => {
           </button>
         </form>
       </div>
-
-        </div>
-    );
+    </div>
+  );
 };
 
 export default UpdateItem;
