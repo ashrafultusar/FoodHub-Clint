@@ -2,12 +2,13 @@ import { FaTrashAlt } from "react-icons/fa";
 import UseCarts from "../../../Hooks/UseCarts";
 import Swal from "sweetalert2";
 import UseAxiosSecure from "../../../Hooks/UseAxiosSecure";
+import { Link } from "react-router-dom";
 
 const Cart = () => {
-  const [cart,refetch] = UseCarts();
+  const [cart, refetch] = UseCarts();
   const totalPrice = cart.reduce((total, item) => total + item.price, 0);
   const axiosSecure = UseAxiosSecure();
-
+console.log(cart)
   const handelDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -21,8 +22,8 @@ const Cart = () => {
       if (result.isConfirmed) {
         axiosSecure.delete(`/carts/${id}`).then((res) => {
           console.log(res);
-            if (res.data.deletedCount > 0) {
-              refetch()
+          if (res.data.deletedCount > 0) {
+            refetch();
             Swal.fire({
               title: "Deleted!",
               text: "Your file has been deleted.",
@@ -39,7 +40,15 @@ const Cart = () => {
       <div className="flex justify-evenly">
         <h2 className="text-4xl">Items: {cart.length}</h2>
         <h2 className="text-4xl">Total Price: {totalPrice}</h2>
-        <button className="btn btn-primary">Pay</button>
+        {cart.length ? (
+          <Link to="/dashboard/payment">
+            <button className="btn btn-primary">Pay</button>
+          </Link>
+        ) : (
+          <button disabled className="btn btn-primary">
+            Pay
+          </button>
+        )}
       </div>
 
       <div>

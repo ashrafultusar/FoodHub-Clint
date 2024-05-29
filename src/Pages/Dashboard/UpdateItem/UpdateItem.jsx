@@ -10,9 +10,9 @@ const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
 const UpdateItem = () => {
-  const item = useLoaderData();
+  const { name, category, recipe, price, _id } = useLoaderData();
   const { register, handleSubmit } = useForm();
-  console.log(item);
+  // console.log(item);
 
   const axiosPublic = UseAxiosPublic();
   const axiosSecure = UseAxiosSecure();
@@ -37,15 +37,15 @@ const UpdateItem = () => {
         image: res.data.data.display_url,
       };
       //
-      const menuResponse = await axiosSecure.post("/menu", menuItem);
+      const menuResponse = await axiosSecure.patch(`/menu/${_id}`, menuItem);
       console.log(menuResponse.data);
-      if (menuResponse.data.insertedId) {
+      if (menuResponse.data.modifiedCount > 0) {
         // show success popup
         //   reset()
         Swal.fire({
           position: "top-end",
           icon: "success",
-          title: `${data.name} added to the menu`,
+          title: `${data.name} updated to the menu`,
           showConfirmButton: false,
           timer: 1500,
         });
@@ -68,6 +68,7 @@ const UpdateItem = () => {
               <span className="label-text">Recipe Name</span>
             </div>
             <input
+              defaultValue={name}
               type="text"
               placeholder="Recipe Name"
               {...register("name", { required: true })}
@@ -83,7 +84,7 @@ const UpdateItem = () => {
                 <span className="label-text">Category</span>
               </div>
               <select
-                defaultValue="default"
+                defaultValue={category}
                 {...register("category", { required: true })}
                 className="select select-bordered w-full "
               >
@@ -106,6 +107,7 @@ const UpdateItem = () => {
               </div>
               <input
                 type="number"
+                defaultValue={price}
                 placeholder="Price"
                 {...register("price", { required: true })}
                 className="input input-bordered w-full "
@@ -119,6 +121,7 @@ const UpdateItem = () => {
               <span className="label-text">Recipe Details</span>
             </div>
             <textarea
+              defaultValue={recipe}
               {...register("recipe", { required: true })}
               className="textarea textarea-bordered h-24"
               placeholder="Bio"
@@ -134,7 +137,7 @@ const UpdateItem = () => {
           </div>
 
           <button className="btn bg-[#B58130] text-white">
-            Add Items <FaUtensils className="ml-4"></FaUtensils>{" "}
+            Update menu<FaUtensils></FaUtensils>{" "}
           </button>
         </form>
       </div>
